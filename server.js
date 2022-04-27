@@ -13,7 +13,7 @@ const port = 3000
 app.get("/", handleHomePage)
 app.get("/favorite", handleFavPage)
 app.get("/status500", handleError500)
-app.get("/status404", handleError404)
+app.get("*", handleError404)
 
 
 
@@ -30,13 +30,13 @@ function handleFavPage(req, res) {
     res.send(`Welcome to Favorite Page`)
 }
 function handleError500(req, res) {
-    res.send({
+    res.status(500).send({
         "status": 500,
         "responseText": "Sorry, something went wrong"
     })
 }
 function handleError404(req, res) {
-    res.send({
+    res.status(404).send({
         "status": 404,
         "responseText": "page not found error"
     })
