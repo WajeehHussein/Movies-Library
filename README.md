@@ -3,12 +3,16 @@
 **Author Name**: Wajeeh Hussein
 
 ## WRRC
-![](/wrrc.jpg)
+![](./API.jpg)
 
 ## Overview
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->later..
+This library will help you learn how to:
+* find a film relating to a theme
+* find latest movie
+* expand your enjoyment and knowledge of movies
 
 ## Project Features
-<!-- What are the features included in you app -->later..
+* the app can show trending movie,latest movie and up coming movie.
+* You can search any film by name
