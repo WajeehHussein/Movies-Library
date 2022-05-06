@@ -1,4 +1,5 @@
 'use strict';
+
 const PORT = 3000
 const password = process.env.PASSWORD
 const apiKey = process.env.APIKEY
@@ -31,7 +32,6 @@ app.get("/upComing", handleUpComing)
 app.get("*", handleError404)
 
 
-
 // functions: 
 function handleAdd(req, res) {
     const { title, summary } = req.body;
@@ -58,7 +58,7 @@ function handleHomePage(req, res) {
 }
 
 function handleFavPage(req, res) {
-    res.send(`Welcome to Favorite Page`)
+    res.send(`Welcome to my Favorite Page`)
 }
 
 function handleError500(req, res) {
