@@ -16,5 +16,5 @@ This library will help you learn how to:
 
 ## Project Features
 * the app can show trending movie,latest movie and up coming movie.
-* You can search any film by name
-* add your summary for any film
+* You can search any film by name.
+* add your summary for any film.
