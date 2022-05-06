@@ -3,7 +3,7 @@
 **Author Name**: Wajeeh Hussein
 
 ## WRRC
-![](./API.jpg)
+![](./task13.jpg)
 
 ## Overview
 
@@ -12,7 +12,9 @@ This library will help you learn how to:
 * find a film relating to a theme
 * find latest movie
 * expand your enjoyment and knowledge of movies
+* make your own's DB
 
 ## Project Features
 * the app can show trending movie,latest movie and up coming movie.
 * You can search any film by name
+* add your summary for any film
