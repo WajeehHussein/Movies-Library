@@ -1,18 +1,26 @@
 'use strict';
-
+const PORT = 3000
+const password = process.env.PASSWORD
+const apiKey = process.env.APIKEY
+const url = `postgres://wajeeh:${password}@localhost:5432/wajeeh`
 const axios = require('axios').default;
 const express = require('express');
+const bodyParser = require('body-parser')
 require("dotenv").config();
+
+const { Client } = require('pg')
+const client = new Client(url)
+
 const recipesData = require("./data.json");
-const cors = require('cors')
+const cors = require('cors');
 const app = express();
-const PORT = 3000
-app.listen(PORT, handleListen)
-const apiKey = process.env.APIKEY
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(cors())
 
-// 4. creating a route
-
+// creating a route
+app.post("/addMovie", handleAdd)
+app.get("/getMovies", handleGet)
 app.get("/", handleHomePage)
 app.get("/favorite", handleFavPage)
 app.get("/status500", handleError500)
@@ -25,17 +33,34 @@ app.get("*", handleError404)
 
 
 // functions: 
+function handleAdd(req, res) {
+    const { title, summary } = req.body;
+    let sql = `INSERT INTO movie(title,summary) VALUES($1,$2) RETURNING *;`
+    let values = [title, summary]
+    client.query(sql, values).then((result) => {
+        return res.status(201).json(result.rows);
+    }).catch()
+}
+
+function handleGet(req, res) {
+    let sql = `SELECT * from movie`
+    client.query(sql).then((result) => {
+        res.json(result.rows)
+    }).catch()
+}
+
 function handleHomePage(req, res) {
     res.send({
         "title": "Spider-Man: No Way Home",
         "poster_path": "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-        "overview": "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man."
+        "overview": "Peter Parker is unmasked and no longer able to separate his normal life."
     });
 }
 
 function handleFavPage(req, res) {
     res.send(`Welcome to Favorite Page`)
 }
+
 function handleError500(req, res) {
     res.status(500).send({
         "status": 500,
@@ -108,8 +133,6 @@ function handleSearch(req, res) {
 }
 
 
-
-
 function handleError404(req, res) {
     res.status(404).send({
         "status": 404,
@@ -117,10 +140,13 @@ function handleError404(req, res) {
     })
 }
 
+client.connect().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Example app listening on PORT ${PORT}`)
+    })
+})
 
-function handleListen() {
-    console.log(`Example app listening on PORT ${PORT}`)
-}
+
 
 function Trending(id, title, release_date, poster_path, overview) {
     this.id = id;
