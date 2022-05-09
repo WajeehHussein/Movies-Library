@@ -29,14 +29,18 @@ app.get("/trending", handleTrending)
 app.get("/search", handleSearch)
 app.get("/topRated", handleTop)
 app.get("/upComing", handleUpComing)
+//Task 14
+app.put("/UPDATE/:id", handleUpdate)//params
+app.delete("/DELETE", handleDelete)//qurey
+app.get("/getMovie/:id", handleGetmovie)//params
 app.get("*", handleError404)
 
 
 // functions: 
 function handleAdd(req, res) {
-    const { title, summary } = req.body;
-    let sql = `INSERT INTO movie(title,summary) VALUES($1,$2) RETURNING *;`
-    let values = [title, summary]
+    const { title, summary, id } = req.body;
+    let sql = `INSERT INTO movie(id,title,summary) VALUES($1,$2,$3) RETURNING *;`
+    let values = [id, title, summary]
     client.query(sql, values).then((result) => {
         return res.status(201).json(result.rows);
     }).catch()
@@ -132,6 +136,41 @@ function handleSearch(req, res) {
         })
 }
 
+function handleUpdate(req, res) {
+    const { id } = req.params;
+    const { title, summary } = req.body;
+
+    let sql = `UPDATE movie SET  title = $1, summary = $2 WHERE id = $3 RETURNING *;`
+    let values = [title, summary, id];
+
+    client.query(sql, values).then(result => {
+        res.json(result.rows[0]);
+    }
+
+    ).catch();
+}
+
+function handleDelete(req, res) {
+    const id = req.query.id
+    let sql = 'DELETE FROM movie WHERE id=$1;'
+    let value = [id];
+    client.query(sql, value).then(result => {
+        res.send("deleted movie");
+    }
+    ).catch();
+}
+
+function handleGetmovie(req, res) {
+    const { id } = req.params;
+    let sql = `SELECT * from movie WHERE id = $1;`
+    let values = [id];
+
+    client.query(sql, values).then(result => {
+        res.json(result.rows[0]);
+    }
+
+    ).catch();
+}
 
 function handleError404(req, res) {
     res.status(404).send({
