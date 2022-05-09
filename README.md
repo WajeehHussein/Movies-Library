@@ -20,3 +20,5 @@ This library will help you learn how to:
 * the app can show trending movie,latest movie and up coming movie.
 * You can search any film by name.
 * add your summary for any film.
+* You can get a speecific movie and can update it also.
+* You can delete a speecific movie from your's DB.
